@@ -31,21 +31,20 @@ app.get('/users', (req, res) => {
 
 
 app.post('/users', (req, res) => {
-    const newUsers = req.body;
-    const duplicated = users.find(item => item.email === newUsers.email)
+    const addUsers = req.body;
+    const duplicated = users.find(item => item.email === addUsers.email)
     if (duplicated) {
-        return res.status(409).json({ error: 'email nay da duoc su dung' });
+        return res.status(409).json({ error: 'email này đã được sử dụng' });
     }
-    users.push(newUsers);
+    users.push(addUsers);
 
-    res.status(201).json(newUsers);
+    res.status(201).json(addUsers);
 });
 
 app.use((req, res) => {
-    res.status(404).json({ error: "da co nham lan gi do" });
+    res.status(404).json({ error: "Đã có lỗi gì đó" });
 });
 
 app.use((err, res) => {
-    console.error(err.stack);
-    res.status(500).json({ error: 'Loi server' });
+    res.status(500).json({ error: 'Lỗi máy chủ' });
 });
