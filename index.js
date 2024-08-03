@@ -16,13 +16,13 @@ let users = [
         id: 1, name: "Nguyen van Nam", email: "nguyenvannam1234@gmail.com"
     },
     {
-        id: 1, name: "An Trung Nam", email: "Antrungnam1234@gmail.com"
+        id: 2, name: "An Trung Nam", email: "Antrungnam1234@gmail.com"
     },
     {
-        id: 1, name: "Pham thi ngan", email: "phamthingan@gmail.com"
+        id: 3, name: "Pham thi ngan", email: "phamthingan@gmail.com"
     },
     {
-        id: 1, name: "Nguyen phuong anh", email: "Nguyenphuonganh@gmail.com"
+        id: 4, name: "Nguyen phuong anh", email: "Nguyenphuonganh@gmail.com"
     }
 ]
 app.get('/users', (req, res) => {
@@ -32,7 +32,8 @@ app.get('/users', (req, res) => {
 
 app.post('/users', (req, res) => {
     const newUsers = req.body;
-    if (users.find(user => user.email === newUsers.email)) {
+    const duplicated = users.find(item => item.email === newUsers.email)
+    if (duplicated) {
         return res.status(409).json({ error: 'email nay da duoc su dung' });
     }
     users.push(newUsers);
@@ -40,11 +41,11 @@ app.post('/users', (req, res) => {
     res.status(201).json(newUsers);
 });
 
-app.use((req, res, next) => {
+app.use((req, res) => {
     res.status(404).json({ error: "da co nham lan gi do" });
 });
 
-app.use((err, req, res, next) => {
+app.use((err, res) => {
     console.error(err.stack);
     res.status(500).json({ error: 'Loi server' });
 });
